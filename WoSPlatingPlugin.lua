@@ -151,10 +151,30 @@ plating_creation_button.Click:Connect(function()
 	plating_creation_button:SetActive(false)
 end)
 
+material_malleability_table = {
+	Titanium = 8000;
+	Iron = 16000
+}
+
 function ScalePlating(x, z)
 	local selected_parts = Selection:Get()
+	local original_size = {}
+	local reset_flag = false
 	for i, object in selected_parts do
-		object.Size = Vector3.new(x, object.Size.Y, z)
+		original_size[object] = object.Size
+		local size = Vector3.new(x, object.Size.Y, z)
+		if size.X * size.Y * size.Z < material_malleability_table[object.Name] or not material_malleability_table[object.Name] then
+			object.Size = size
+		else
+			reset_flag = true
+			break
+		end
+	end
+	if reset_flag then
+		for object, size in original_size do
+			object.Size = size
+		end
+		print("Part malleability exceeded!!")
 	end
 end
 
