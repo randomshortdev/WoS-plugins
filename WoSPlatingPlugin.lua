@@ -153,7 +153,8 @@ end)
 
 material_malleability_table = {
 	Titanium = 8000;
-	Iron = 16000
+	Iron = 15625;
+	Neutronium = 10625
 }
 
 function ScalePlating(x, z)
